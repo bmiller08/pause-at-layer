@@ -50,6 +50,8 @@ z_return=$( echo "${z_pos} - ${2}" | bc )
 # Get the position of insertion in the code
 gcode_pos=$( grep "; layer ${1}," ${4} )
 
+# Remove extruder position line
+sed -i "/layer ${1},/b;n;n;n;c ; Remove extruder position line"
 # Make insertion
 sed -i "s/${gcode_pos}/${gcode_pos}\n; FILAMENT CHANGE added by Pause At Layer\nG28 X Y\nG1 Z${3}\nM0\nG1 Z${z_return}/" ${4}
 

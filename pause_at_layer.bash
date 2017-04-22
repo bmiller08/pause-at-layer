@@ -16,6 +16,9 @@
 # Example:
 # ./pause_at_layer 10 0.200 20.000 fidget_spinner.stl
 
+# For multiple layers at once you can do
+# for layer in 8 14 23 29; do ~/pause_at_layer.bash ${layer} 0.200 20.000 fidget_spinner.gcode; done
+
 # Check to make sure provided file is a file
 if ! [ -f "${4}" ]; then
   echo "Not a valid file, ${4}"

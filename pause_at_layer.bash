@@ -49,7 +49,7 @@ z_pos=$( echo "${1} * ${2}" | bc )
 gcode_pos=$( grep "; layer ${1}," ${4} )
 
 # Make insertion
-sed -e "/G1 Z${z_pos}/,/G1 E0.0000/d" ${4}
+sed -i "/G1 Z${z_pos}/,/G1 E0.0000/d" ${4}
 sed -i "s/${gcode_pos}/${gcode_pos}\n; FILAMENT CHANGE added by Pause At Layer\nG28 X Y\nG1 Z${3}\nM0\nG1 Z${z_pos}\n; END FILAMENT CHANGE/" ${4}
 
 # Show location of inserted code

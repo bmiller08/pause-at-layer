@@ -1,1 +1,1 @@
-pauseatlayer
+View script for usage information.

@@ -52,7 +52,8 @@ echo "Z position with offset is ${z_pos_offset}"
 gcode_pos=$( grep "; layer ${1}," ${4} )
 
 # Make insertion
-sed -i "/G1 Z${z_pos}/,/G1 E0.0000/d" ${4}
+# sed -i "/G1 Z${z_pos}/,/G1 E0.0000/d" ${4}
+sed "/G1 Z${z_pos}/!b;n;d" ${4}
 sed -i "s/${gcode_pos}/${gcode_pos}\n; FILAMENT CHANGE added by Pause At Layer\nG28 X Y\nG1 Z${3}\nM0\nG1 Z${z_pos_offset}\n; END FILAMENT CHANGE/" ${4}
 
 # Show location of inserted code

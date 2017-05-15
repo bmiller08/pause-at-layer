@@ -12,12 +12,12 @@
 # I believe this line causes the extruder to try to reset to 0 by spinning backwards. This unloads the filament loaded during the pause
 
 # Use like:
-# ./pause_at_layer <layer> <layer height to 3 decimal places> <z height for filament change to 3 decimal places> <file>
+# ./pause_at_layer <layer> <layer height to 3 decimal places> <z height for filament change to 3 decimal places> <file> <retraction_boolean>
 # Example:
 # ./pause_at_layer 10 0.200 20.000 fidget_spinner.stl
 
 # For multiple layers at once you can do
-# for layer in 8 14 23 29; do ~/pause_at_layer.bash ${layer} 0.200 20.000 fidget_spinner.gcode; done
+# for layer in 8 14 23 29; do ~/pause_at_layer.bash ${layer} 0.200 20.000 fidget_spinner.gcode false; done
 
 # Check to make sure provided file is a file
 if ! [ -f "${4}" ]; then
@@ -53,7 +53,9 @@ gcode_pos=$( grep "; layer ${1}," ${4} )
 
 # Make insertion
 # sed -i "/G1 Z${z_pos}/,/G1 E0.0000/d" ${4}
-sed -i "/G1 Z${z_pos}/!b;n;d" ${4}
+if [[ ${5} == 'true' ]]; then
+  sed -i "/G1 Z${z_pos}/!b;n;d" ${4}
+fi
 sed -i "s/${gcode_pos}/${gcode_pos}\n; FILAMENT CHANGE added by Pause At Layer\nG28 X Y\nG1 Z${3}\nM0\nG1 Z${z_pos_offset}\n; END FILAMENT CHANGE/" ${4}
 
 # Show location of inserted code

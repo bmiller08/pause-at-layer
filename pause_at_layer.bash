@@ -46,7 +46,7 @@ fi
 # Get the target layer position
 z_pos=$( echo "${1} * ${2}" | bc )
 echo "Z position is ${z_pos}"
-z_pos_offset=$( echo "(${1} * ${2}) - 0.2" | bc )
+z_pos_offset=$( echo "(${1} * ${2}) - ${2}" | bc )
 echo "Z position with offset is ${z_pos_offset}"
 # Get the position of insertion in the code
 gcode_pos=$( grep "; layer ${1}," ${4} )

@@ -56,7 +56,7 @@ gcode_pos=$( grep "; layer ${1}," ${4} )
 if [[ ${5} == 'true' ]]; then
   sed -i "/G1 Z${z_pos}/!b;n;d" ${4}
 fi
-sed -i "s/${gcode_pos}/${gcode_pos}\n; FILAMENT CHANGE added by Pause At Layer\nG28 X Y\nG1 Z${3}\nM0\nG1 Z${z_pos_offset}\n; END FILAMENT CHANGE/" ${4}
+sed -i "s/${gcode_pos}/${gcode_pos}\n; FILAMENT CHANGE added by Pause At Layer\nM300 S200 P3000\nG28 X Y\nG1 Z${3}\nM0\nG1 Z${z_pos_offset}\n; END FILAMENT CHANGE/" ${4}
 
 # Show location of inserted code
 grep -C 10 "; layer ${1}" ${4}
